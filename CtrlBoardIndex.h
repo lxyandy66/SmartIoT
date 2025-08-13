@@ -9,3 +9,4 @@
 #include "BaseCtrlComponent.h"
 
 #include "PackedPID.h"
+#include "PackedMAX6675.h"

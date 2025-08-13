@@ -2,7 +2,7 @@
 #include "CtrlAccessory.h"
 
 
-class VirtualAnalogReader : public AnalogReader , public CtrlAccessory{
+class VirtualAnalogReader : public AnalogReader {
     //通过virtualAnalogRead来设定输出值
    private:
     double virtualAnalogRead;
@@ -36,7 +36,9 @@ class VirtualAnalogReader : public AnalogReader , public CtrlAccessory{
 
     double getVirtualAnalog() { return this->virtualAnalogRead; }
 
-    void setVirtualAnalog(double input) { this->virtualAnalogRead = input; }
+    virtual void setVirtualAnalog(double input) { this->virtualAnalogRead = input; }
+
+    virtual void updateMeasurement() = 0;//纯虚无参方法用于其他子类继承
 
     void showParameters(){
         this->debugPrint(this->acId + ": "+String(virtualAnalogRead, 3));

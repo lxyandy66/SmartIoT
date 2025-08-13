@@ -8,6 +8,11 @@ AnalogReader::AnalogReader(int port, int res,int smoothSize):AnalogIOPort(port,r
     pinMode(port, INPUT_ANALOG);
 }
 
+AnalogReader::AnalogReader(String id,String vName,int port,int res,int smoothSize):AnalogIOPort(port,res),CtrlAccessory(id,vName){
+    movCacu=NumericMovingAverageFilter(smoothSize);
+    pinMode(port, INPUT_ANALOG);
+}
+
 void AnalogReader::setSmoothWindowSize(int size){
     this->movCacu.setWindowSize(size);
 }
@@ -48,4 +53,23 @@ double AnalogReader::readAnalogSmoothly(boolean needUpdated,boolean needMapping,
 
 double AnalogReader::mappingValue(double originalValue){
     return this->mapper->mapping(originalValue);
+}
+
+void AnalogReader::showParameters(){
+    this->debugPrint(this->acId + ": "+String(this->movCacu.getNewestElement(), 3));
+    this->debugPrint(this->acId + " Queue size: "+this->movCacu.getWindowSize());
+}
+
+void AnalogReader::outputStatus(JsonDocument* jsonDoc) {
+    (*jsonDoc)[AgentProtocol::DEV_ID_FROM_JSON] = this->acId;
+    (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+}
+
+void AnalogReader::outputStatus(JsonDocument* jsonDoc,boolean onlyValue){
+    if(onlyValue){
+        (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+        return;
+    }else{
+        outputStatus(jsonDoc);
+    }
 }

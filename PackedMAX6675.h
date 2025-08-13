@@ -1,0 +1,45 @@
+#pragma once
+#include <max6675.h>
+#include "CtrlAccessory.h"
+
+// 包装过的MAX6675热电偶类
+
+class PackedMAX6675 : public VirtualAnalogReader {
+ private:
+  MAX6675 *thermalCouple;
+
+ public:
+
+  PackedMAX6675(String id, String vName,  MAX6675 *tc) : VirtualAnalogReader(1,16,7)  {
+    thermalCouple = tc ;
+    this->setValueName(vName);
+    this->setAcId(id);
+  }
+
+  void updateMeasurement() {
+    setVirtualAnalog((double)thermalCouple->readCelsius());
+  }
+  void outputStatus(JsonDocument* jsonDoc) {
+    (*jsonDoc)[AgentProtocol::DEV_ID_FROM_JSON] = this->acId;
+    (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+}
+
+void outputStatus(JsonDocument* jsonDoc,boolean onlyValue){
+    if(onlyValue){
+        (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+        return;
+    }else{
+        outputStatus(jsonDoc);
+    }
+}
+void outputStatus(JsonDocument* jsonDoc,boolean onlyValue,boolean needUpdate){
+    if(needUpdate)
+      updateMeasurement();
+    if (onlyValue) {
+      (*jsonDoc)[this->valueName] = readAnalogDirectly(true);
+      return;
+    } else {
+      outputStatus(jsonDoc);
+    }
+}
+};
