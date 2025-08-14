@@ -62,12 +62,17 @@ void AnalogReader::showParameters(){
 
 void AnalogReader::outputStatus(JsonDocument* jsonDoc) {
     (*jsonDoc)[AgentProtocol::DEV_ID_FROM_JSON] = this->acId;
-    (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+    (*jsonDoc)[this->valueName] = readAnalogDirectly(false) ;
 }
 
 void AnalogReader::outputStatus(JsonDocument* jsonDoc,boolean onlyValue){
+    //其实不需要这个
+    return outputStatus(jsonDoc, onlyValue, false);
+}
+
+void AnalogReader::outputStatus(JsonDocument* jsonDoc,boolean onlyValue, boolean needUpdate){
     if(onlyValue){
-        (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;
+        (*jsonDoc)[this->valueName] = readAnalogDirectly(needUpdate) ;
         return;
     }else{
         outputStatus(jsonDoc);

@@ -23,6 +23,10 @@ class CtrlAccessory {
 
      //用于将当前的数据输出到Json
      virtual void outputStatus(JsonDocument* jsonDoc) {}
+     virtual void outputStatus(JsonDocument* jsonDoc,boolean onlyValue) {}
+     virtual void outputStatus(JsonDocument* jsonDoc,boolean onlyValue,boolean needUpdate) {}
+
+
 
      virtual void showParameters() = 0;
 

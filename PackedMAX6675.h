@@ -34,9 +34,9 @@ void outputStatus(JsonDocument* jsonDoc,boolean onlyValue){
 }
 void outputStatus(JsonDocument* jsonDoc,boolean onlyValue,boolean needUpdate){
     if(needUpdate)
-      updateMeasurement();
+      updateMeasurement();//此处是继承VirtualAnalogReader类，测量值需要额外更新
     if (onlyValue) {
-      (*jsonDoc)[this->valueName] = readAnalogDirectly(true);
+      (*jsonDoc)[this->valueName] = readAnalogDirectly(true);//VirtualAnalogReader类中，这个boolean参数没有用
       return;
     } else {
       outputStatus(jsonDoc);

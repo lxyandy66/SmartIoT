@@ -20,7 +20,8 @@ class AnalogReader : public AnalogIOPort, public CtrlAccessory{
 
     virtual void showParameters();
     virtual void outputStatus(JsonDocument* jsonDoc);
-    void outputStatus(JsonDocument* jsonDoc,boolean onlyValue);
+    virtual void outputStatus(JsonDocument* jsonDoc,boolean onlyValue);
+    virtual void outputStatus(JsonDocument* jsonDoc,boolean onlyValue,boolean needUpdate);
 
     void setSmoothWindowSize(int size);
 
