@@ -10,7 +10,7 @@ class PackedMAX6675 : public VirtualAnalogReader {
 
  public:
 
-  PackedMAX6675(String id, String vName,  MAX6675 *tc) : VirtualAnalogReader(1,16,7)  {
+  PackedMAX6675(String id, String vName,  MAX6675 *tc,int smoothSize=7) : VirtualAnalogReader(1,16,smoothSize)  {//这几个参数对应int port, int res, int smoothSize，无实际含义
     thermalCouple = tc ;
     this->setValueName(vName);
     this->setAcId(id);
@@ -19,6 +19,7 @@ class PackedMAX6675 : public VirtualAnalogReader {
   void updateMeasurement() {
     setVirtualAnalog((double)thermalCouple->readCelsius());
   }
+  
   void outputStatus(JsonDocument* jsonDoc) {
     (*jsonDoc)[AgentProtocol::DEV_ID_FROM_JSON] = this->acId;
     (*jsonDoc)[this->valueName] = readAnalogDirectly(true) ;

@@ -38,7 +38,7 @@ class VirtualAnalogReader : public AnalogReader {
 
     virtual void setVirtualAnalog(double input) { this->virtualAnalogRead = input; }
 
-    virtual void updateMeasurement() = 0;//纯虚无参方法用于其他子类继承
+    virtual void updateMeasurement() {};//纯虚无参方法用于其他子类继承
 
     void showParameters(){
         this->debugPrint(this->acId + ": "+String(virtualAnalogRead, 3));

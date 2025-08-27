@@ -10,3 +10,4 @@
 
 #include "PackedPID.h"
 #include "PackedMAX6675.h"
+#include "PackedVEML7700.h"
